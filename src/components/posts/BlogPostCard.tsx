@@ -3,21 +3,27 @@ import {
     CardMedia,
     CardContent,
     Typography,
-    Button,
-    Box,
 } from '@mui/material';
 
 interface BlogPostCardProps {
     title: string;
     summary: string;
     image: string;
-    onReadMore: () => void;
+    onNavigate: () => void; // Renamed to clarify the navigation intent
 }
 
-const BlogPostCard: React.FC<BlogPostCardProps> = ({ title, summary, image, onReadMore }) => {
+function BlogPostCard({ title, summary, image, onNavigate }: BlogPostCardProps) {
     return (
-        <Card sx={{ maxWidth: 345, borderRadius: 2, boxShadow: 4 }}>
-            <CardMedia component="img" height="140" image={image} alt={title} />
+        <Card sx={{ borderRadius: 2, boxShadow: 4 }}>
+            {/* Make the image clickable */}
+            <CardMedia
+                component="img"
+                height="140"
+                image={image}
+                alt={title}
+                sx={{ cursor: 'pointer' }} // Add a pointer cursor to indicate it's clickable
+                onClick={onNavigate} // Navigate to the post when clicked
+            />
             <CardContent>
                 <Typography variant="h6" component="h2">
                     {title}
@@ -25,14 +31,9 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ title, summary, image, onRe
                 <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
                     {summary}
                 </Typography>
-                <Box sx={{ marginTop: 2, textAlign: 'center' }}>
-                    <Button variant="contained" color="primary" onClick={onReadMore}>
-                        Read More
-                    </Button>
-                </Box>
             </CardContent>
         </Card>
     );
-};
+}
 
 export default BlogPostCard;

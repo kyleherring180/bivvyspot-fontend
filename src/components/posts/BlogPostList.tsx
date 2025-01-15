@@ -1,6 +1,7 @@
 import { Container, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import BlogPostCard from './BlogPostCard';
+import { useNavigate } from 'react-router-dom';
 
 interface BlogPost {
     id: number;
@@ -16,21 +17,22 @@ const blogPosts: BlogPost[] = [
 ];
 
 function BlogPostList() {
-    const handleReadMore = (id: number) => {
-        console.log(`Navigate to post ${id}`);
-        // Implement navigation logic here
+    const navigate = useNavigate();
+
+    const handleNavigate = (id: number) => {
+        navigate(`/post/${id}`); // Navigate to the post details page
     };
 
     return (
-        <Container sx={{ marginTop: 4, height: '100vh' }}>
+        <Container sx={{ marginTop: 4, height: '100%' }}>
             <Grid container spacing={2} sx={{ height: '100%' }}>
                 {/* Left Pane */}
                 <Grid size="grow">
                     <Box
                         sx={{
-                            backgroundColor: '#f5f5f5',
+                            backgroundColor: '',
                             height: '100%',
-                            minHeight: '100vh',
+                            minHeight: '100%',
                         }}
                     >
                         {/* Left pane content */}
@@ -38,14 +40,29 @@ function BlogPostList() {
                 </Grid>
 
                 {/* Middle Column */}
-                <Grid size={6}>
+                <Grid
+                    sx={{
+                        flexDirection: 'column',
+                        justifyContent: 'center', // Centers content vertically
+                        alignItems: 'center', // Centers content horizontally
+                        height: '100%',
+                        minWidth: 600
+                    }}
+                >
                     {blogPosts.map((post) => (
-                        <Box key={post.id} sx={{ marginBottom: 4 }}>
+                        <Box key={post.id} 
+                             sx={{ 
+                                 marginBottom: 4,
+                                 justifyContent: 'center', // Centers content vertically
+                                 alignItems: 'center', // Centers content horizontally
+                                 height: '100%',
+                                 minWidth: 600
+                        }}>
                             <BlogPostCard
                                 title={post.title}
                                 summary={post.summary}
                                 image={post.image}
-                                onReadMore={() => handleReadMore(post.id)}
+                                onNavigate={() => handleNavigate(post.id)} // Pass navigation handler
                             />
                         </Box>
                     ))}
@@ -55,7 +72,7 @@ function BlogPostList() {
                 <Grid size="grow">
                     <Box
                         sx={{
-                            backgroundColor: '#f5f5f5',
+                            backgroundColor: '',
                             height: '100%',
                             minHeight: '100vh',
                         }}
